@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8" />
+  <meta name="viewport" />
+  <title>ajax excercise</title>
+
+  <body>
+    <button id="button">Get Text File</button>
+    <p id="text"></p>
+    <script>
+      //create event listener
+      document.getElementById("button").addEventListener("click", loadText);
+
+      function loadText() {
+        var xhr = new XMLHttpRequest();
+        //the readyState for open is 1
+        xhr.open("GET", "sample.txt", true);
+        console.log("readystate:", xhr.readyState);
+        //the readyState for onprogress is 3
+        xhr.onprogress = function() {
+          console.log("readystate: ", xhr.readyState);
+        };
+        //the biggest different between onload and onreadystatechange
+        //is that onload is the readyState already become 4
+        //while the onreadystatechange will waiting for the readyState
+        //from 1 to 4:
+        xhr.onload = function() {
+          console.log("readystate: ", xhr.readyState);
+          if (this.status == 200) {
+            document.getElementById("text").innerHTML = this.responseText;
+          }
+        };
+        // xhr.onreadystatechange = function() {
+        //   console.log("readystate:", xhr.readyState);
+        //   if (this.readyState == 4 && this.status == 200) {
+        //   }
+        // };
+
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>

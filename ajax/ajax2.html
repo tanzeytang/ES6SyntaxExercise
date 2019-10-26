@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" />
+    <title>
+      AJAX excercise 2: get local json data
+    </title>
+  </head>
+  <button id="button1">Get User</button
+  ><button id="button2">Get Users</button>
+  <br /><br />
+  <h1>User</h1>
+  <div id="user"></div>
+  <h1>Users</h1>
+  <div id="users"></div>
+  <script>
+    document.getElementById("button2").addEventListener("click", loadUsers);
+    document.getElementById("button1").addEventListener("click", loadUser);
+    function loadUser() {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "user.json", true);
+      xhr.onload = function() {
+        if (this.status == 200) {
+          //use json.parse to transform the json to object
+          let user = JSON.parse(this.responseText);
+
+          document.getElementById("user").innerHTML = user.name;
+        }
+      };
+      xhr.send();
+    }
+
+    function loadUsers() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "users.json", true);
+      xhr.onload = function() {
+        if (this.status == 200) {
+          //use json.parse to transform the json to object
+          let users = JSON.parse(this.responseText);
+
+          let output = "";
+          for (const i in users) {
+            output +=
+              "<ul>" +
+              "<li>" +
+              users[i].id +
+              "</li>" +
+              "<li>" +
+              users[i].name +
+              "</li>" +
+              "<li>" +
+              users[i].email +
+              "</li>" +
+              "</ul>";
+          }
+          document.getElementById("users").innerHTML = output;
+        }
+      };
+      xhr.send();
+    }
+  </script>
+</html>

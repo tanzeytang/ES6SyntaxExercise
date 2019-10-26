@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" />
+    <title>
+      AJAX excercise 3: get remote json data
+    </title>
+  </head>
+  <button id="button">Load Github users</button>
+  <br /><br />
+  <h1>Github users: https://api.github.com/users</h1>
+  <div id="users"></div>
+
+  <script>
+    document.getElementById("button").addEventListener("click", loadUsers);
+
+    function loadUsers() {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "https://api.github.com/users", true);
+
+      xhr.onload = function() {
+        if (this.status == 200) {
+          const users = JSON.parse(this.responseText);
+          let output = "";
+          for (const i in users) {
+            output +=
+              '<div class="user">' +
+              '<img src="' +
+              users[i].avatar_url +
+              '" width="70" height="70">' +
+              "<ul>" +
+              "<li> ID: " +
+              users[i].id +
+              "</li>" +
+              "<li> ID: " +
+              users[i].login +
+              "</li>" +
+              "</ul>" +
+              "</div>";
+          }
+          document.getElementById("users").innerHTML = output;
+        }
+      };
+      xhr.send();
+    }
+  </script>
+</html>
